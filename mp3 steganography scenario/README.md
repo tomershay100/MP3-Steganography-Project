@@ -33,8 +33,8 @@ sniffer will never even know Alice was the one who ran these scripts!
 
 
 ## Dependencies
-* [Python 3.9+](https://www.python.org/downloads/)
 * [Ubuntu on WSL](https://ubuntu.com/wsl)
+* [Python 3.9+](https://www.python.org/downloads/)
 
 ## Running Instructions
 * Run the `server.py` file on a WSL terminal
