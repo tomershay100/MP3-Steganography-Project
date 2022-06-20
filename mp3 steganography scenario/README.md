@@ -42,4 +42,4 @@ sniffer will never even know Alice was the one who ran these scripts!
 * Run the `client.py` file on a WSL terminal
 * Watch the scenario simultaneously in both terminals:
   * The hiding of the script in the `client.py` terminal
-  * The extraction of the script and its execution of it on the `server.py` terminal
+  * The extraction of the script and its execution on the `server.py` terminal
