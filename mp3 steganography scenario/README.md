@@ -18,7 +18,7 @@ the attacker to even suspect she sends those commands).
 To protect her commands and hide their existence on the insecure
 channel, Alice turns to steganography and does the following:
 * On her end, Alice downloads a `MP3` file of an unsuspicious nature - say, a `MP3`
-version of the hit song “Never Gonna Give You Up” by Rick Astley. 
+version of the hit song “Never Gonna Give You Up” by Rick Astley (the `test.mp3` file in our case). 
 * She then uses the custom `MP3` steganography system to
 decode the file and re-encode it, embedding her secret message within - in her case, a shell script she wishes to run in
 the server.
