@@ -17,7 +17,7 @@ def receive_file():
     return mp3file_content
 
 
-script = "ls -l\necho hello world"
+script = "ls -l\n echo hello world"
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
     sock.connect((HOST, PORT))
 
