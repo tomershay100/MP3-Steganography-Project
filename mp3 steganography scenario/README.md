@@ -36,6 +36,7 @@ sniffer will never even know Alice was the one who ran these scripts!
 ## Dependencies
 * [Ubuntu on WSL](https://ubuntu.com/wsl) (for Windows users) or any [Linux distribution](https://www.linux.org/pages/download/) 
 * [Python 3.9+](https://www.python.org/downloads/)
+* [mp3stego-lib](https://github.com/tomershay100/mp3-steganography-lib)
 
 ## Running Instructions
 * Run the `server.py` file on a WSL terminal
