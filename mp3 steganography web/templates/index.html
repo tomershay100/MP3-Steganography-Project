@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>MP3 Steganography Library</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="mp3 steganography library home web page">
+    <meta name="author" content="Aviad Seady, Tomer Shay, Lee Zaid">
+
+    <link href="../static/bootstrap.css" rel="stylesheet">
+    <link href="../static/bootstrap-responsive.css" rel="stylesheet">
+    <style>
+        html,
+        body {
+            height: 100%;
+        }
+
+        #wrap {
+            min-height: 100%;
+            height: 100%;
+            margin: 0 auto -30px;
+        }
+
+        #push
+    </style>
+
+    <link rel="icon" type="image/png" href="../static/favicon.ico">
+</head>
+
+<body>
+<div id="wrap">
+    <div class="container">
+        <div class="span12 offset0">
+
+            <div class="navbar" style="margin-top: 30px;">
+                <div class="navbar-inner">
+                    <a class="brand">MP3 Steganography Library</a>
+                    <ul class="nav" id="myTab">
+                        <li class={{ "active" if curr_tab == 0 }}><a id="home-tab" href="#home">Home</a></li>
+                        <li class={{ "active" if curr_tab == 1 }}><a id="decode-tab" href="#tab1">MP3 to WAV</a></li>
+                        <li class={{ "active" if curr_tab == 2 }}><a id="encode-tab" href="#tab2">WAV to MP3</a></li>
+                        <li class={{ "active" if curr_tab == 3 }}><a id="hide-tab" href="#tab3">Hide Message</a></li>
+                        <li class={{ "active" if curr_tab == 4 }}><a id="reveal-tab" href="#tab4">Reveal Message</a>
+                        </li>
+                        <li class={{ "active" if curr_tab == 5 }}><a id="clear-tab" href="#tab5">Clear MP3 file</a></li>
+                        <li class={{ "active" if curr_tab == 6 }}><a id="lib-tab" href="#tab6">Python Library</a></li>
+                        <li class={{ "active" if curr_tab == 7 }}><a id="about-tab" href="#tab7">About</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="tab-content">
+                <div class="tab-pane fade {{ "active in" if curr_tab == 0 }}" id="home">
+                    <div class="row">
+                        <div class="span7">
+                            <H2>The mp3stego-lib page</H2>
+                            <p class="lead">
+                                The mp3stego-lib is a python3 library for steganography in MP3 files.
+                            </p>
+                            <p>
+                                This python library allows a user to hide strings inside MP3 files, extract the hidden
+                                strings from MP3 file, clean a MP3 file from hidden strings in it and generally allows
+                                to convert MP3 files to WAV (decoding process) files and vice versa (encoding process).
+                            </p>
+                            <h3>
+                                Project Description
+                            </h3>
+                            <p>
+                                The steganography process uses and modifies the selection of the optimal (that requires
+                                the minimal amount of bits to code the data) Huffman tables as presented in the research
+                                article &quot;<em>High capacity reversible data hiding in MP3 based on Huffman table
+                                transformation</em>&quot; (which can be found <a
+                                    href="https://www.aimspress.com/fileOther/PDF/MBE/mbe-16-04-158.pdf">here</a>).
+                                Quite simply, the idea is to be able to hide bits by changing the selection of the used
+                                Huffman table indexes. Each frame in the <code>MP3</code> file uses several Huffman
+                                tables (one per granule, channel and region - a total of 8-12 tables).
+                            </p>
+                            <p>
+                                For the steganography we ordered the tables as pairs according to their similarities
+                                (from the article), and determined that each table represent the bit 0 or 1. For the
+                                sake of demonstration let us assume that the Huffman table x and the Huffman table y are
+                                a pair, and that x represents the bit 0 and y represents bit 1. To hide a bit, given
+                                that the Huffman table x has been selected as the optimal table, it is replaced with the
+                                Huffman table y if the bit is 1, otherwise the table x is selected. An inverted case
+                                will happen for original use of table y.
+                            </p>
+
+                        </div>
+                        <div class="span4" style="text-align: left; margin-top: 30px;">
+                            All documentation and source files can be found below and at the About tab:
+                            <p><a href="https://app.travis-ci.com/github/tomershay100/mp3-steganography-lib"><img
+                                    src="https://app.travis-ci.com/tomershay100/mp3-steganography-lib.svg?branch=main"
+                                    alt="travis-ci"></a>
+                                <a href="https://mp3-steganography-lib.readthedocs.io/en/latest/"><img
+                                        src="https://readthedocs.org/projects/mp3-steganography-lib/badge/?version=latest"
+                                        alt="doc"></a>
+                                <a href="https://badge.fury.io/py/mp3stego-lib"><img
+                                        src="https://badge.fury.io/py/mp3stego-lib.svg" alt="PyPI version"></a>
+                                <a href="https://badge.fury.io/gh/tomershay100%2Fmp3-steganography-lib"><img
+                                        src="https://badge.fury.io/gh/tomershay100%2Fmp3-steganography-lib.svg"
+                                        alt="GitHub version"></a></p>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade {{ "active in" if curr_tab == 1 }}" id="tab1">
+                    <H2>Convert MP3 file To WAV file</H2>
+                    <P>
+                        Using our library, you can decode a MP3 file into WAV file. Import the library and use the
+                        Steganography class as follows:
+                    </P>
+
+                    <pre><code class="lang-python">  <span class="hljs-attr">stego</span> = Steganography(<span
+                            class="hljs-attr">quiet=True)</span>
+  stego.decode_mp3_to_wav(<span class="hljs-string">"input.mp3"</span>, <span class="hljs-string">"output.wav"</span>)
+</code></pre>
+                    <dl>
+                        <dt><code>input_file_path: str</code></dt>
+                        <dd>file path for the <code>MP3</code> file.</dd>
+                        <dt><code>wav_file_path: str</code></dt>
+                        <dd>file path for the output <code>WAV</code> file
+                            (default value=<code>input_file_path[:-4] + &quot;.wav&quot;</code>).
+                        </dd>
+                    </dl>
+
+                    <br>
+                    <br>
+                    <p>
+                        You can also use our server for decoding MP3 files by uploading a MP3 file here and clicking the
+                        Decode button:
+                    </p>
+                    <br>
+                    <div class="row">
+
+                        <form id="mp3-to-wav-form" method=post
+                              enctype=multipart/form-data>
+                            <div class="span4">
+                                <label for="mp3-decode-file" class="button-4">
+                                    Upload MP3 File
+                                </label>
+                                <input type="file" name=file-mp3 id="mp3-decode-file" accept=".mp3"
+                                       style="display: none">
+                            </div>
+                            <div class="span3">
+                                <label for="decode" class="button-4">
+                                    Decode
+                                </label>
+                                <input type="submit" id="decode" value=decode name="submit"
+                                       onclick="document.getElementById('loader-decode').style.display='block'; document.getElementById('mp3-to-wav-form').disabled='disabled'; document.getElementById('label-download-decode').style.display='none';"
+                                       style="display: none">
+                            </div>
+                        </form>
+                        <div class="span3">
+                            <form id="download-decode-form" method=get
+                                  action="{{ url_for('download', file_path=file_path) }}"
+                                  enctype=multipart/form-data>
+                                <label id="label-download-decode" for="download-decode" class="button-4"
+                                       style="display: {{ none if not display_download else "inline-block" }}; top: 0;">
+                                    Download
+                                </label>
+                                <input type="submit" id="download-decode" style="display: none">
+                            </form>
+                            <div id="loader-decode" class="loader" style="display: none"></div>
+                        </div>
+                        <div class="span7" style="margin-left: 0">
+                            <br>
+                            <p class="text-error">{{ text_error }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade {{ "active in" if curr_tab == 2 }}" id="tab2">
+                    <H2>Convert WAV file To MP3 file</H2>
+                    <P>
+                        Using our library, you can encode a WAV file into MP3 file. Import the library and use the
+                        Steganography class as follows:
+                    </P>
+
+                    <pre> <code class="lang-python"><span class="hljs-attr">stego</span> = Steganography(<span
+                            class="hljs-attr">quiet=True)</span>
+ stego.encode_wav_to_mp3(<span class="hljs-string">"input.wav"</span>, <span
+                                class="hljs-string">"output.mp3"</span>, <span
+                                class="hljs-number">320</span>)</code></pre>
+                    <dl>
+                        <dt><code>wav_file_path: str</code></dt>
+                        <dd>file path for the <code>WAV</code> file.</dd>
+                        <dt><code>output_file_path: str</code></dt>
+                        <dd>file path for the output <code>MP3</code> file.</dd>
+                        <dt><code>bitrate: int</code></dt>
+                        <dd>the bitrate to be used in the encoding process (default value is <code>320</code>). You may
+                            use bitrate from <code>32Kb</code> to <code>420Kb</code> in jumps of <code>32Kb</code>.
+                        </dd>
+                    </dl>
+                    <br>
+                    <br>
+                    <p>
+                        You can also use our server for encoding a MP3 files by uploading WAV file (and specify bitrate)
+                        here and clicking the Encode button:
+                    </p>
+                    <br>
+                    <div class="row">
+
+                        <form id="wav-to-mp3-form" method=post
+                              enctype=multipart/form-data>
+                            <div class="span4">
+                                <label for="mp3-encode-file" class="button-4">
+                                    Upload WAV File
+                                </label>
+                                <input type="file" name=file-mp3 id="mp3-encode-file" accept=".wav"
+                                       style="display: none">
+                                <label for="bitrate-input"></label>
+                                <input class="input-text" id="bitrate-input" type="number"
+                                       placeholder="Bitrate (default=320)" name="bitrate">
+                            </div>
+
+                            <div class="span3">
+                                <label for="encode" class="button-4">
+                                    Encode
+                                </label>
+                                <input type="submit" id="encode" value=encode name="submit"
+                                       onclick="document.getElementById('loader-encode').style.display='block'; document.getElementById('wav-to-mp3-form').disabled='disabled'; document.getElementById('label-download-encode').style.display='none';"
+                                       style="display: none">
+                            </div>
+                        </form>
+                        <div class="span3">
+                            <form id="download-encode-form" method=get
+                                  action="{{ url_for('download', file_path=file_path) }}"
+                                  enctype=multipart/form-data>
+                                <label id="label-download-encode" for="download-encode" class="button-4"
+                                       style="display: {{ none if not display_download else "inline-block" }}; top: 0;">
+                                    Download
+                                </label>
+                                <input type="submit" id="download-encode" style="display: none">
+                            </form>
+                            <div id="loader-encode" class="loader" style="display: none"></div>
+                        </div>
+                    </div>
+                    <div class="span7" style="margin-left: 0">
+                        <br>
+                        <p class="text-error">{{ text_error }}</p>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade {{ "active in" if curr_tab == 3 }}" id="tab3">
+                    <H2>Hiding String in MP3 file</H2>
+                    <P>
+                        Using our library, you can hide a string (steganography) in MP3 file. Import the library and
+                        use the Steganography class as follows:
+                    </P>
+
+                    <pre><code class="lang-python">  <span class="hljs-attr">stego</span> = Steganography(<span
+                            class="hljs-attr">quiet=True)</span>
+  stego.hide_message(<span class="hljs-string">"input.mp3"</span>, <span class="hljs-string">"output.mp3"</span>, <span
+                                class="hljs-string">"String to hide in the file"</span>)</code></pre>
+                    <dl>
+                        <dt><code>input_file_path: str</code></dt>
+                        <dd>file path for the input <code>MP3</code> file.</dd>
+                        <dt><code>output_file_path: str</code></dt>
+                        <dd>file path for the output <code>MP3</code> file.</dd>
+                        <dt><code>message: str</code></dt>
+                        <dd>the message to hide in the file.</dd>
+                        <dt><code>wav_file_path: str</code></dt>
+                        <dd>
+                            file path for the output <code>WAV</code> file (default value=<code>input_file_path[:-4] +
+                            &quot;.wav&quot;</code>).
+                        </dd>
+                        <dt><code>delete_wav: bool</code></dt>
+                        <dd> boolean value for the decoding process to delete the wav file or not (default value <code>True</code>).
+                        </dd>
+                    </dl>
+                    <br>
+                    <br>
+                    <p>
+                        You can also use our server for hiding strings in MP3 files by uploading a MP3 file (and specify
+                        the string) here and clicking the Hide button:
+                    </p>
+                    <br>
+                    <div class="row">
+
+                        <form id="hide-form" method=post
+                              enctype=multipart/form-data>
+                            <div class="span4">
+                                <label for="hide-file" class="button-4">
+                                    Upload MP3 File
+                                </label>
+                                <input type="file" name=file-mp3 id="hide-file" accept=".mp3" style="display: none">
+
+                                <label for="upload-txt-file" class="button-4">
+                                    Upload TXT File
+                                </label>
+                                <input type="file" name=file-txt id="upload-txt-file" accept=".txt"
+                                       style="display: none">
+
+                                {#                                <label for="string-input"></label>#}
+                                {#                                <input class="input-text" id="string-input" type="text"#}
+                                {#                                       placeholder="String to hide in the file" name="message">#}
+                            </div>
+                            <div class="span3">
+                                <label for="hide" class="button-4">
+                                    Hide
+                                </label>
+                                <input type="submit" id="hide" value=hide name="submit"
+                                       onclick="document.getElementById('loader-hide').style.display='block'; document.getElementById('hide-form').disabled='disabled'; document.getElementById('label-download-hide').style.display='none';"
+                                       style="display: none">
+                            </div>
+                        </form>
+                        <div class="span3">
+
+                            <form id="download-hide-form" method=get
+                                  action="{{ url_for('download', file_path=file_path) }}"
+                                  enctype=multipart/form-data>
+                                <label id="label-download-hide" for="download-hide" class="button-4"
+                                       style="display: {{ none if not display_download else "inline-block" }}; top: 0;">
+                                    Download
+                                </label>
+                                <input type="submit" id="download-hide" style="display: none">
+                            </form>
+                            <div id="loader-hide" class="loader" style="display: none"></div>
+                        </div>
+                    </div>
+                    <div class="span7" style="margin-left: 0">
+                        <br>
+                        <p class="text-error">{{ text_error }}</p>
+                    </div>
+
+                </div>
+
+                <div class="tab-pane fade {{ "active in" if curr_tab == 4 }}" id="tab4">
+                    <H2>Reveal String from MP3 file</H2>
+                    <P>
+                        Using our library, you can reveal hidden string from a MP3 file. Import the library and
+                        use the Steganography class as follows:
+                    </P>
+
+
+                    <pre><code class="lang-python">  <span class="hljs-attr">stego</span> = Steganography(<span
+                            class="hljs-attr">quiet=True)</span>
+  stego.reveal_massage(<span class="hljs-string">"input.mp3"</span>, <span
+                                class="hljs-string">"results.txt"</span>)</code></pre>
+                    <dl>
+                        <dt><code>input_file_path: str</code></dt>
+                        <dd>file path for the input <code>MP3</code> file.</dd>
+                        <dt><code>txt_file_path: str</code></dt>
+                        <dd>file path for the results to be written to.</dd>
+                    </dl>
+                    <br>
+                    <br>
+                    <p>
+                        You can also use our server for revealing hidden strings from MP3 files by uploading MP3 file
+                        here and clicking the Reveal button:
+                    </p>
+                    <br>
+                    <div class="row">
+
+                        <form id="reveal-form" method=post
+                              enctype=multipart/form-data>
+                            <div class="span4">
+                                <label for="reveal-file" class="button-4">
+                                    Upload MP3 File
+                                </label>
+                                <input type="file" name=file-mp3 id="reveal-file" accept=".mp3" style="display: none">
+                            </div>
+                            <div class="span3">
+                                <label for="reveal" class="button-4">
+                                    Reveal
+                                </label>
+                                <input type="submit" id="reveal" value=reveal name="submit"
+                                       onclick="document.getElementById('loader-reveal').style.display='block'; document.getElementById('reveal-form').disabled='disabled'; document.getElementById('label-download-reveal').style.display='none';"
+                                       style="display: none">
+                            </div>
+                        </form>
+                        <div class="span3">
+                            <form id="download-reveal-form" method=get
+                                  action="{{ url_for('download', file_path=file_path) }}"
+                                  enctype=multipart/form-data>
+                                <label id="label-download-reveal" for="download-reveal" class="button-4"
+                                       style="display: {{ none if not display_download else "inline-block" }}; top: 0;">
+                                    Download
+                                </label>
+                                <input type="submit" id="download-reveal" style="display: none">
+                            </form>
+                            <div id="loader-reveal" class="loader" style="display: none"></div>
+                        </div>
+                        <div class="span7" style="margin-left: 0">
+                            <br>
+                            <p class="text-error">{{ text_error }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade {{ "active in" if curr_tab == 5 }}" id="tab5">
+                    <H2>Clearing String from MP3 file</H2>
+                    <P>
+                        Using our library, you can clear a MP3 file from any string (that has been inserted by our
+                        library). Import the library and use the Steganography class as follows:
+                    </P>
+
+
+                    <pre><code class="lang-python">  <span class="hljs-attr">stego</span> = Steganography(<span
+                            class="hljs-attr">quiet=True)</span>
+  stego.clear_file(<span class="hljs-string">"input.mp3"</span>, <span
+                                class="hljs-string">"output.mp3"</span>)</code></pre>
+                    <dl>
+                        <dt><code>input_file_path: str</code></dt>
+                        <dd>file path for the input <code>MP3</code> file.</dd>
+                        <dt><code>output_file_path: str</code></dt>
+                        <dd>file path for the output <code>MP3</code> file.</dd>
+                    </dl>
+                    <br>
+                    <br>
+                    <p>
+                        You can also use our server for clearing MP3 files by uploading MP3 file here and clicking the
+                        Clear button:
+                    </p>
+                    <br>
+                    <div class="row">
+
+                        <form id="clear-form" method=post
+                              enctype=multipart/form-data>
+                            <div class="span4">
+                                <label for="clear-file" class="button-4">
+                                    Upload MP3 File
+                                </label>
+                                <input type="file" name=file-mp3 id="clear-file" accept=".mp3" style="display: none">
+                            </div>
+                            <div class="span3">
+                                <label for="clear" class="button-4">
+                                    Clear
+                                </label>
+                                <input type="submit" id="clear" value=clear name="submit"
+                                       onclick="document.getElementById('loader-clear').style.display='block'; document.getElementById('clear-form').disabled='disabled'; document.getElementById('label-download-clear').style.display='none';"
+                                       style="display: none">
+                            </div>
+                        </form>
+                        <div class="span3">
+                            <form id="download-clear-form" method=get
+                                  action="{{ url_for('download', file_path=file_path) }}"
+                                  enctype=multipart/form-data>
+                                <label id="label-download-clear" for="download-clear" class="button-4"
+                                       style="display: {{ none if not display_download else "inline-block" }}; top: 0;">
+                                    Download
+                                </label>
+                                <input type="submit" id="download-clear" style="display: none">
+                            </form>
+                            <div id="loader-clear" class="loader" style="display: none"></div>
+                        </div>
+                        <div class="span7" style="margin-left: 0">
+                            <br>
+                            <p class="text-error">{{ text_error }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade {{ "active in" if curr_tab == 6 }}" id="tab6">
+                    <h3 id="project-structure">Project Structure</h3>
+                    <p>The library contains several packages and several classes built as follows:</p>
+                    <ol>
+                        <li><code>decoder</code> package:
+                            <ul>
+                                <li><strong>Frame class:</strong> contains all the information about the current <code>MP3</code>
+                                    frame that been decoded.
+                                </li>
+                                <li><strong>FrameHeader class:</strong> contains all the information about the current
+                                    <code>MP3</code> frame header that is decoded.
+                                </li>
+                                <li><strong>FrameSideInformation class:</strong> contains all the information about the
+                                    current <code>MP3</code> frame side-information that
+                                    is decoded.
+                                </li>
+                                <li><strong>MP3Parser class:</strong> performs the decoding process while parsing the
+                                    frames of the file.
+                                </li>
+                                <li><strong>ID3Parser class:</strong> performs the decoding process on the <code>METADATA</code>
+                                    of the ``MP3``` file.
+                                </li>
+                                <li><strong>tables file:</strong> contains all the tables that are used in the decoding
+                                    process.
+                                </li>
+                                <li><strong>util file:</strong> contains all the different functions and dataclasses
+                                    that other classes use frequently like mathematical calculations and bit operations.
+                                </li>
+                                <li><strong>Decoder class:</strong> consolidates the <code>MP3</code> decoding process.
+                                    Receives paths to files and takes
+                                    care of the decoding process while printing information, creating files and
+                                    analyzing the <code>METADATA</code>.
+                                </li>
+                            </ul>
+                        </li>
+                        <li><code>encoder</code> package:
+                            <ul>
+                                <li><strong>WAVReader class:</strong> contains all the information about the
+                                    <code>WAV</code> file that is encoded.
+                                </li>
+                                <li><strong>MP3Encoder class:</strong> performs the encoding process.</li>
+                                <li><strong>ID3Parser class:</strong> performs the decoding process of the ``MP3```
+                                    file's <code>METADATA</code>.
+                                    .
+                                </li>
+                                <li><strong>tables file:</strong> contains all the tables that are used in the encoding
+                                    process.
+                                </li>
+                                <li><strong>util file:</strong> contains all the different functions and dataclasses
+                                    that other classes use frequently like
+                                    mathematical calculations and bit operations.
+                                </li>
+                                <li><strong>Encoder class:</strong> consolidates the <code>MP3</code> encoding process.
+                                    Receives paths to files and takes
+                                    care of the encoding process while printing information, creating files.
+                                </li>
+                            </ul>
+                        </li>
+                        <li><strong>Steganography class:</strong> serves as a kind of Façade and allow the user to
+                            perform operations on his <code>MP3</code>
+                            and <code>WAV</code> files. The possible actions are:
+                            <ul>
+                                <li>decode <code>MP3</code> file to <code>WAV</code> file.</li>
+                                <li>encode <code>WAV</code> file to <code>MP3</code> file.</li>
+                                <li>hide string in the <code>MP3</code> file.</li>
+                                <li>reveal a string hidden in <code>MP3</code> file.</li>
+                                <li>clean a <code>MP3</code> file from hidden strings that it might hide.</li>
+                            </ul>
+                        </li>
+                    </ol>
+                    <p>You can see more information about the class hierarchy
+                        in <a href="https://github.com/tomershay100/mp3-steganography-lib/blob/main/src/uml.png">UML</a>.
+                    </p>
+                    <h3 id="dependencies">Dependencies</h3>
+                    <ol>
+                        <li><a href="https://www.python.org/downloads/">Python 3.9+</a></li>
+                        <li><a href="https://numpy.org/install/">NumPy</a></li>
+                        <li><a href="https://scipy.org/install/">SciPy</a></li>
+                        <li><a href="https://github.com/tqdm/tqdm">TQDM</a></li>
+                        <li><a href="https://pypi.org/project/bitarray/">bitarray</a></li>
+                        <li><a href="https://numba.readthedocs.io/en/stable/user/installing.html">numba</a></li>
+                    </ol>
+
+                    <h3 id="running-instructions">Running Instructions</h3>
+                    <p>Steganography Class API:</p>
+                    <ul>
+                        <li><p>Creating Steganography object by</p>
+                            <pre><code class="lang-python"><span class="hljs-keyword">from</span> mp3stego <span
+                                    class="hljs-keyword">import</span> Steganography
+stego = Steganography(quiet=<span class="hljs-literal">True</span>)</code></pre>
+                            <ul>
+                                <li><code>quiet: bool</code>: boolean value for the function to print information or not
+                                    (default value <code>True</code>).
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li>For decoding <code>MP3</code> file into <code>WAV</code> file you may use
+                            <pre><code class="lang-python">  <span class="hljs-attr">stego</span> = Steganography(<span
+                                    class="hljs-attr">quiet=True)</span>
+  stego.decode_mp3_to_wav(<span class="hljs-string">"input.mp3"</span>, <span
+                                        class="hljs-string">"output.wav"</span>)</code></pre>
+                            <ul>
+                                <li><code>input_file_path: str</code>: file path for the <code>MP3</code> file.</li>
+                                <li><code>wav_file_path: str</code>: file path for the output <code>WAV</code> file
+                                    (default value=<code>input_file_path[:-4] + &quot;.wav&quot;</code>).
+                                </li>
+                            </ul>
+                        </li>
+                        <li>For hiding string in <code>MP3</code> file you may use
+                            <pre><code class="lang-python">  <span class="hljs-attr">stego</span> = Steganography(<span
+                                    class="hljs-attr">quiet=True)</span>
+  stego.hide_message(<span class="hljs-string">"input.mp3"</span>, <span class="hljs-string">"output.mp3"</span>, <span
+                                        class="hljs-string">"String to hide in the file"</span>)</code></pre>
+                            <ul>
+                                <li><code>input_file_path: str</code>: file path for the input <code>MP3</code> file.
+                                </li>
+                                <li><code>output_file_path: str</code>: file path for the output <code>MP3</code> file.
+                                </li>
+                                <li><code>message: str</code>: the message to hide in the file.</li>
+                                <li><code>wav_file_path: str</code>: file path for the output <code>WAV</code> file
+                                    (default value=<code>input_file_path[:-4] + &quot;.wav&quot;</code>).
+                                </li>
+                                <li><code>delete_wav: bool</code>: boolean value for the decoding process to delete the
+                                    wav file or not (default
+                                    value <code>True</code>).
+                                </li>
+                            </ul>
+                        </li>
+                        <li>For revealing string from <code>MP3</code> file you may use
+                            <pre><code class="lang-python">  <span class="hljs-attr">stego</span> = Steganography(<span
+                                    class="hljs-attr">quiet=True)</span>
+  stego.reveal_massage(<span class="hljs-string">"input.mp3"</span>, <span
+                                        class="hljs-string">"results.txt"</span>)</code></pre>
+                            <ul>
+                                <li><code>input_file_path: str</code>: file path for the input <code>MP3</code> file.
+                                </li>
+                                <li><code>txt_file_path: str</code>: file path for the results to be written to.</li>
+                            </ul>
+                        </li>
+                        <li>For cleaning <code>MP3</code> file you may use
+                            <pre><code class="lang-python">  <span class="hljs-attr">stego</span> = Steganography(<span
+                                    class="hljs-attr">quiet=True)</span>
+  stego.clear_file(<span class="hljs-string">"input.mp3"</span>, <span
+                                        class="hljs-string">"output.mp3"</span>)</code></pre>
+                            <ul>
+                                <li><code>input_file_path: str</code>: file path for the input <code>MP3</code> file.
+                                </li>
+                                <li><code>output_file_path: str</code>: file path for the output <code>MP3</code> file.
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <h2 id="installation">Installation</h2>
+                    <p>Install the library using:</p>
+                    <pre><code class="lang-shell">pip install mp3stego-<span class="hljs-class"><span
+                            class="hljs-keyword">lib</span></span></code></pre>
+
+                </div>
+
+                <div class="tab-pane fade {{ "active in" if curr_tab == 7 }}" id="tab7">
+                    <H2>About</H2>
+
+                    <p><a href="https://app.travis-ci.com/github/tomershay100/mp3-steganography-lib"><img
+                            src="https://app.travis-ci.com/tomershay100/mp3-steganography-lib.svg?branch=main"
+                            alt="travis-ci"></a>
+                        <a href="https://mp3-steganography-lib.readthedocs.io/en/latest/"><img
+                                src="https://readthedocs.org/projects/mp3-steganography-lib/badge/?version=latest"
+                                alt="doc"></a>
+                        <a href="https://badge.fury.io/py/mp3stego-lib"><img
+                                src="https://badge.fury.io/py/mp3stego-lib.svg" alt="PyPI version"></a>
+                        <a href="https://badge.fury.io/gh/tomershay100%2Fmp3-steganography-lib"><img
+                                src="https://badge.fury.io/gh/tomershay100%2Fmp3-steganography-lib.svg"
+                                alt="GitHub version"></a></p>
+                    <h4 id="contributes">Contributes</h4>
+                    <ul>
+                        <li>Aviad Seady (<a href="mailto:aviadevelops@gmail.com">aviadevelops@gmail.com</a>)</li>
+                        <li>Tomer Shay (<a href="mailto:tomershay100@gmail.com">tomershay100@gmail.com</a>)</li>
+                        <li>Lee Zaid (<a href="mailto:lizizaid@gmail.com">lizizaid@gmail.com</a>)</li>
+                    </ul>
+                    <p>
+                        You can find the source code in <a
+                            href="https://github.com/tomershay100/mp3-steganography-lib">GitHub</a>, View the library in
+                        <a href="https://pypi.org/project/mp3stego-lib/">Pypi</a> and the documentation in <a
+                            href="https://mp3-steganography-lib.readthedocs.io/en/latest/">ReadTheDocs</a>
+                    </p>
+                </div>
+
+            </div><!-- tab content-->
+        </div> <!-- /main span -->
+    </div> <!-- /container -->
+    <div id="push"></div>
+</div> <!-- /wrap -->
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script src="../static/bootstrap.js"></script>
+<script>
+    $('#myTab a').click(function (e) {
+        e.preventDefault();
+        $(this).tab('show');
+        window.location = "/reset/" + this.id;
+    })
+    if (window.location.hash) {
+        $('#myTab a[href="' + window.location.hash + '"]').tab('show');
+    }
+</script>
+
+</body>
+</html>
