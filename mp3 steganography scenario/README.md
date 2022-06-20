@@ -34,7 +34,7 @@ sniffer will never even know Alice was the one who ran these scripts!
 
 
 ## Dependencies
-* [Ubuntu on WSL (for Windows users)](https://ubuntu.com/wsl) or any version of `Linux`
+* [Ubuntu on WSL (for Windows users)](https://ubuntu.com/wsl) or any [Linux](https://www.linux.org/pages/download/) distribution
 * [Python 3.9+](https://www.python.org/downloads/)
 
 ## Running Instructions
