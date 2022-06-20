@@ -22,7 +22,7 @@ version of the hit song “Never Gonna Give You Up” by Rick Astley.
 * She then uses the custom `MP3` steganography system to
 decode the file and re-encode it, embedding her secret message within - in her case, a shell script she wishes to run in
 the server.
-* She then sends the `MP3` stego-file through the insecure channel to the server. Any attacker sniffing the
+* Afterwards, Alice sends the `MP3` stego-file through the insecure channel to the server. Any attacker sniffing the
 traffic over the channel will only see a `MP3` file of “Never Gonna Give You Up” transferring to the server. This is
 probably less suspicious traffic than shell commands in plain text, or even weird encrypted messages - unless the
 attacker specifically knows Alice uses steganography, they will probably have no idea about the script hidden in the `MP3`
