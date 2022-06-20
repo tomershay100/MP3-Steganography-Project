@@ -5,8 +5,9 @@ This repository presents an example scenario where our system (or any `MP3` steg
 Say our agent, Alice (`client.py`), has an open shell command line where she wants to run some commands or scripts. This
 shell is open on a remote server (`server.py`) and is remotely controlled, thus Alice must send commands remotely over a
 network. However, Alice does not want to send those commands openly over the network, as the channel she uses to
-communicate with the remote server is insecure. This can be caused by two reasons: 
+communicate with the remote server is insecure. 
 
+This can be caused by two reasons: 
 * Alice is an attacker in an “enemy” network. She has managed to control her own region in a server of that network (namely, the remotely controlled shell on
 the server), but does not want the ones controlling the network to see her commands sent to the shell, or even suspect
 that Alice’s traffic are malicious commands.
