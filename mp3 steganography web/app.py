@@ -27,6 +27,11 @@ TAB_ID_TO_TAB_NUM = {
     'about-tab': 7,
 }
 
+is_uploads_exist = os.path.exists(UPLOAD_FOLDER)
+
+if not is_uploads_exist:
+    os.makedirs(UPLOAD_FOLDER)
+
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
@@ -176,9 +181,8 @@ def delete_all_used_files():
 
 
 def delete_all_files():
-    folder_path = '/uploads'
-    for f in os.listdir(folder_path):
-        os.remove(os.path.join(folder_path, f))
+    for f in os.listdir(UPLOAD_FOLDER):
+        os.remove(get_full_path(f))
 
 
 @app.route('/reset/<tab_name>')
