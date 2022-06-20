@@ -23,9 +23,8 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
 
     with open('test.mp3', 'rb') as mp3file:
         s = Steganography(quiet=False)
+        # hide the script in the test_out.mp3 file (which is the test.mp3 file with the hidden script)
         s.hide_message('test.mp3', 'test_out.mp3', script)
 
     with open('test_out.mp3', 'rb') as mp3file_out:
-        sock.send(mp3file_out.read())
-
-
+        sock.send(mp3file_out.read())  # send the mp3 file with the hidden script to the server

