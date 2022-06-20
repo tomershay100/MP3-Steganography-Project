@@ -16,13 +16,17 @@ sniff out her commands (she could use cryptography to hide the content she sends
 the attacker to even suspect she sends those commands). 
 
 To protect her commands and hide their existence on the insecure
-channel, Alice turns to steganography. On her end, Alice downloads a `MP3` file of an unsuspicious nature - say, a `MP3`
-version of the hit song “Never Gonna Give You Up” by Rick Astley. She then uses the custom `MP3` steganography system to
+channel, Alice turns to steganography and does the following:
+* On her end, Alice downloads a `MP3` file of an unsuspicious nature - say, a `MP3`
+version of the hit song “Never Gonna Give You Up” by Rick Astley. 
+* She then uses the custom `MP3` steganography system to
 decode the file and re-encode it, embedding her secret message within - in her case, a shell script she wishes to run in
-the server. She then sends the `MP3` stego-file through the insecure channel to the server. Any attacker sniffing the
+the server.
+* She then sends the `MP3` stego-file through the insecure channel to the server. Any attacker sniffing the
 traffic over the channel will only see a `MP3` file of “Never Gonna Give You Up” transferring to the server. This is
 probably less suspicious traffic than shell commands in plain text, or even weird encrypted messages - unless the
 attacker specifically knows Alice uses steganography, they will probably have no idea about the script hidden in the `MP3`
-file. When the file arrives at the server, Alice is in the clear. She can use the custom `MP3` decoder to retrieve the
+file. 
+* When the file arrives at the server, Alice is in the clear. She can use the custom `MP3` decoder to retrieve the
 script she hid inside the file, and with some code, have her shell run it. As only the channel itself is insecure, any
 sniffer will never even know Alice was the one who ran these scripts!
