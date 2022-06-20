@@ -30,3 +30,10 @@ file.
 * When the file arrives at the server, Alice is in the clear. She can use the custom `MP3` decoder to retrieve the
 script she hid inside the file, and with some code, have her shell run it. As only the channel itself is insecure, any
 sniffer will never even know Alice was the one who ran these scripts!
+
+
+## Dependencies
+[Python 3.9+](https://www.python.org/downloads/)
+
+## Running Instructions
+
