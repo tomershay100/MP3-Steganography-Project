@@ -6,23 +6,23 @@ MP3 Steganography Web is a one-page webApp that allows the user to have a conven
 
 ### Converting ``MP3`` into ``WAV`` files (decode)
 As you can see, in the `MP3 to WAV` tab you can upload ``MP3`` file and decode it into ``WAV`` file.
-![alt text](https://github.com/tomershay100/MP3-Steganography-Project/blob/main/mp3%20steganography%20web/images/decode.png?raw=true)
+![alt text](https://github.com/tomershay100/MP3-Steganography-Project/blob/main/MP3%20Steganography%20Web/images/decode.png?raw=true)
 
 ### Converting ``WAV`` into ``MP3`` files (encode)
 You can also upload ``WAV`` file and encode it into ``MP3`` file by uploading the file and specify the ``bitrate`` of the ``WAV`` file at the `WAV to MP3 tab`.
-![alt text](https://github.com/tomershay100/MP3-Steganography-Project/blob/main/mp3%20steganography%20web/images/encode.png?raw=true)
+![alt text](https://github.com/tomershay100/MP3-Steganography-Project/blob/main/MP3%20Steganography%20Web/images/encode.png?raw=true)
 
 ### Hiding String in MP3 file
 The main function of our library is the hiding function. By uploading ``MP3`` file and ``TXT`` file, the output of the function is a ``MP3`` file with the text hidden in it . A further explanation of the hiding process can be found in the related article.
-![alt text](https://github.com/tomershay100/MP3-Steganography-Project/blob/main/mp3%20steganography%20web/images/hide.png?raw=true)
+![alt text](https://github.com/tomershay100/MP3-Steganography-Project/blob/main/MP3%20Steganography%20Web/images/hide.png?raw=true)
 
 ### Reveal String from MP3 file
 Another function of our library is the revealing function. You can upload ``MP3`` file and out library will find the hidden string in it, and download the resulting ``TXT`` file.
-![alt text](https://github.com/tomershay100/MP3-Steganography-Project/blob/main/mp3%20steganography%20web/images/reveal.png?raw=true)
+![alt text](https://github.com/tomershay100/MP3-Steganography-Project/blob/main/MP3%20Steganography%20Web/images/reveal.png?raw=true)
 
 ### Clearing String from MP3 file
 The last tab allows the user to upload ``MP3`` file and get new clear ``MP3`` file that contains the same audio.  
-![alt text](https://github.com/tomershay100/MP3-Steganography-Project/blob/main/mp3%20steganography%20web/images/clear.png?raw=true)
+![alt text](https://github.com/tomershay100/MP3-Steganography-Project/blob/main/MP3%20Steganography%20Web/images/clear.png?raw=true)
 
 ## Dependencies
 
